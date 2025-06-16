@@ -1,6 +1,7 @@
 //Grab the grid container and add in the 8x8 row
 const grid = document.querySelector("#gridContainer");
 let sideLength = 8;
+let opacityArray = [];
 
 function sideLengthInput() {
     //Get input from user on how many squares per side
@@ -11,15 +12,29 @@ function sideLengthInput() {
     }
     //Remove existing grid
     grid.innerHTML = '';
+    //Reset Opacity Array
+    opacityArray = [];
 
+    //Create a new grid with side length equal to the user input
     for (i=0; i < sideLength; i++) {
         let singleGridRow = document.createElement("div");
-        for (let i = 0; i < sideLength; i++){
+        for (let j = 0; j < sideLength; j++){
             let singleGridUnit = document.createElement("div")
+            opacityArray = opacityArray.concat(0)
             singleGridUnit.classList.add("singleGridUnit")
+            singleGridUnit.classList.add(`${i},${j}`)
             singleGridUnit.addEventListener("mouseenter", ()=>{
-                singleGridUnit.classList.add("hovered")
-                console.log("added hovered class")
+                redVal = Math.random() * 255;
+                greenVal = Math.random() * 255;
+                blueVal = Math.random() * 255;
+                singleGridUnitPosition = singleGridUnit.classList[1];
+                posSplit = singleGridUnitPosition.split(',')
+                singleGridUnitRowPos = Number(posSplit[0]);
+                singleGridUnitColPos = Number(posSplit[1]);
+                opacityArrayPos = singleGridUnitRowPos * sideLength + (singleGridUnitColPos);
+                opacityArray[opacityArrayPos] = opacityArray[opacityArrayPos] + 0.1;
+                singleGridUnit.style.opacity = opacityArray[opacityArrayPos];
+                singleGridUnit.style.backgroundColor = `rgb(${redVal},${greenVal},${blueVal})`;
             })
             singleGridRow.appendChild(singleGridUnit);
         }
@@ -28,14 +43,26 @@ function sideLengthInput() {
     }
 }
 
-for (let i = 0; i < 8; i++) {
+//Initialize an 8x8 grid to start with the etch-a-sketch
+for (let i = 0; i < sideLength; i++) {
     let singleGridRow = document.createElement("div");
-    for (let i = 0; i < 8; i++){
+    for (let j = 0; j < sideLength; j++){
         let singleGridUnit = document.createElement("div")
+        opacityArray = opacityArray.concat(0)
         singleGridUnit.classList.add("singleGridUnit")
+        singleGridUnit.classList.add(`${i},${j}`)
         singleGridUnit.addEventListener("mouseenter", ()=>{
-            singleGridUnit.classList.add("hovered")
-            console.log("added hovered class")
+            redVal = Math.random() * 255;
+            greenVal = Math.random() * 255;
+            blueVal = Math.random() * 255;
+            singleGridUnitPosition = singleGridUnit.classList[1];
+            posSplit = singleGridUnitPosition.split(',')
+            singleGridUnitRowPos = Number(posSplit[0]);
+            singleGridUnitColPos = Number(posSplit[1]);
+            opacityArrayPos = singleGridUnitRowPos * sideLength + (singleGridUnitColPos);
+            opacityArray[opacityArrayPos] = opacityArray[opacityArrayPos] + 0.1;
+            singleGridUnit.style.opacity = opacityArray[opacityArrayPos];
+            singleGridUnit.style.backgroundColor = `rgb(${redVal},${greenVal},${blueVal})`;
         })
         singleGridRow.appendChild(singleGridUnit);
     }
